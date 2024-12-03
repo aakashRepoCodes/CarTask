@@ -99,7 +99,7 @@ fun YearSelectionScreen(
                             ItemRow(
                                 text = year,
                                 onClick = {
-                                    navController.navigate("${Routes.FUEL_SELECTION_PAGE}/$brand/$model/$year")
+                                    navController.navigate("fuel_selection/$brand/$model/$year")
                                 },
                                 modifier = Modifier.background(MaterialTheme.colorScheme.background)
                             )

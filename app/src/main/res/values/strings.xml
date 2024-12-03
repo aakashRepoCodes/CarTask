@@ -6,6 +6,6 @@
     <string name="txt_add_new_car_btn">Add new car</string>
     <string name="txt_discover_your_car">Discover your car</string>
     <string name="txt_car_selection">Car Selection</string>
-    <string name="txt_search_for_years">Search for years...</string>
+    <string name="txt_search_for_years">Search for buildyears...</string>
     <string name="txt_dummy_placeholder_search">Search...</string>
 </resources>

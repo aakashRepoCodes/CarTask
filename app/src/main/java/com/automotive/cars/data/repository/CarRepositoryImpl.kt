@@ -1,6 +1,5 @@
 package com.automotive.cars.data.repository
 
-import com.automotive.cars.data.CarDataStoreManager
 import com.automotive.cars.data.CarMapper
 import com.automotive.cars.data.local.dao.CarDao
 import com.automotive.cars.data.local.dao.MockDataDao

@@ -5,13 +5,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.automotive.cars.presentation.ui.navigation.Routes.ARG_BRAND_NAME
+import com.automotive.cars.presentation.ui.navigation.Routes.ARG_MODEL_NAME
+import com.automotive.cars.presentation.ui.navigation.Routes.ARG_SERIES
+import com.automotive.cars.presentation.ui.navigation.Routes.ARG_YEAR
 import com.automotive.cars.presentation.viewmodel.CarViewModel
 import com.automotive.cars.presentation.viewmodel.DataProviderViewModel
 import com.automotive.cars.presentation.ui.screens.BrandSelectionScreen
@@ -69,16 +72,16 @@ fun AppNavHost(
         }
 
         composable(
-            route = "${Routes.FUEL_SELECTION_PAGE}/{brandName}/{series}/{year}",
+            route = Routes.FUEL_SELECTION_PAGE,
             arguments = listOf(
-                navArgument("brandName") { type = NavType.StringType },
-                navArgument("series") { type = NavType.StringType },
-                navArgument("year") { type = NavType.StringType },
+                navArgument(ARG_BRAND_NAME) { type = NavType.StringType },
+                navArgument(ARG_SERIES) { type = NavType.StringType },
+                navArgument(ARG_YEAR) { type = NavType.StringType },
             )
         ) { backStackEntry ->
-            val brandName = backStackEntry.arguments?.getString("brandName") ?: ""
-            val series = backStackEntry.arguments?.getString("series") ?: ""
-            val year = backStackEntry.arguments?.getString("year") ?: ""
+            val brandName = backStackEntry.arguments?.getString(ARG_BRAND_NAME) ?: ""
+            val series = backStackEntry.arguments?.getString(ARG_SERIES) ?: ""
+            val year = backStackEntry.arguments?.getString(ARG_YEAR) ?: ""
 
             FuelSelectionScreen(
                 brandName = brandName,
@@ -100,7 +103,7 @@ fun AppNavHost(
             BrandSelectionScreen(
                 dataProviderViewModel = dataProviderViewModel,
                 onVehicleSelected = { brand ->
-                    navController.navigate("${Routes.MODEL_SELECTION_PAGE}/$brand")
+                    navController.navigate("series_selection/$brand")
                 },
                 onBackPressed = {
                     navController.popBackStack()
@@ -108,17 +111,17 @@ fun AppNavHost(
             )
         }
 
-        // Model Selection Screen
+        // Series Selection Screen
         composable(
-            route = "${Routes.MODEL_SELECTION_PAGE}/{brandName}",
-            arguments = listOf(navArgument("brandName") { type = NavType.StringType })
+            route = Routes.SERIES_SELECTION_PAGE,
+            arguments = listOf(navArgument(ARG_BRAND_NAME) { type = NavType.StringType })
         ) { backStackEntry ->
-            val brandName = backStackEntry.arguments?.getString("brandName") ?: ""
+            val brandName = backStackEntry.arguments?.getString(Routes.ARG_BRAND_NAME) ?: ""
             SeriesSelectionScreen(
                 brandName = brandName,
                 viewModel = dataProviderViewModel,
                 onModelSelected = { brand, model ->
-                    navController.navigate("${Routes.YEAR_SELECTION_PAGE}/$brand/$model")
+                    navController.navigate("year_selection/$brand/$model")
                 },
                 onBackPressed = {
                     navController.popBackStack()
@@ -128,14 +131,14 @@ fun AppNavHost(
 
         // Year Selection Screen
         composable(
-            route = "${Routes.YEAR_SELECTION_PAGE}/{brandName}/{modelName}",
+            route = Routes.YEAR_SELECTION_PAGE,
             arguments = listOf(
-                navArgument("brandName") { type = NavType.StringType },
-                navArgument("modelName") { type = NavType.StringType }
+                navArgument(ARG_BRAND_NAME) { type = NavType.StringType },
+                navArgument(ARG_MODEL_NAME) { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            val brandName = backStackEntry.arguments?.getString("brandName") ?: ""
-            val modelName = backStackEntry.arguments?.getString("modelName") ?: ""
+            val brandName = backStackEntry.arguments?.getString(ARG_BRAND_NAME) ?: ""
+            val modelName = backStackEntry.arguments?.getString(ARG_MODEL_NAME) ?: ""
             YearSelectionScreen(
                 viewModel = dataProviderViewModel,
                 navController = navController,
